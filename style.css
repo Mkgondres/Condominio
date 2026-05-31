@@ -1,0 +1,572 @@
+/* ==========================================================================
+   AURA RESIDENCES - ESTILOS PREMIUM (PARTE 1)
+   ========================================================================== */
+
+/* 1. VARIABLES DE DISEÑO (Paleta de colores de lujo y fuentes) */
+:root {
+    --primary: #c5a880;        /* Tono oro champaña/bronce sutil */
+    --primary-hover: #b3966e;  /* Variación para efectos de interacción */
+    --dark: #111111;           /* Negro profundo elegante */
+    --dark-neutral: #1a1a1a;   /* Gris oscuro para contraste */
+    --light: #fdfdfd;          /* Blanco roto premium */
+    --gray-light: #f5f5f7;     /* Gris claro suave para fondos */
+    --text-dark: #222222;      /* Color de texto principal en fondos claros */
+    --text-muted: #666666;     /* Color de texto secundario */
+    --text-light: #ffffff;     /* Color de texto en fondos oscuros */
+    
+    --font-title: 'Playfair Display', serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --transition: cubic-bezier(0.25, 1, 0.5, 1) 0.4s; /* Transición suave de lujo */
+}
+
+/* 2. RESET Y ESTILOS GENERALES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Subtítulos de sección elegantes */
+.section-subtitle {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* 3. NAV / HEADER PREMIUM (Efecto cristal translúcido) */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(17, 17, 17, 0.75);
+    backdrop-filter: blur(15px); /* Efecto vidrio esmerilado */
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.logo {
+    font-family: var(--font-title);
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    font-weight: 500;
+}
+
+.logo span {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--primary);
+    display: block;
+    margin-top: -3px;
+}
+
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--text-light);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--primary);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+/* Botones Premium */
+.btn-nav {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 1px solid var(--primary);
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.btn-nav:hover {
+    background-color: var(--primary);
+    color: var(--dark);
+}
+
+.mobile-menu-toggle {
+    display: none; /* Se activa en móviles */
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 4. HERO SECTION (BIENVENIDA DE IMPACTO) */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(17,17,17,0.85) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 60px;
+}
+
+.hero-content h1 {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--text-light);
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    font-weight: 300;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 16px 35px;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--text-light);
+}
+
+.btn-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-light);
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.scroll-down i {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
+}
+
+/* 5. MANIFIESTO SECTION (EQUILIBRIO VISUAL) */
+.manifesto-section {
+    padding: 140px 0;
+    background-color: var(--light);
+}
+
+.manifesto-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.manifesto-text h2 {
+    font-family: var(--font-title);
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    color: var(--dark);
+}
+
+.manifesto-text p.highlight {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.manifesto-text p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+/* Collage de Imágenes Asimétrico (Estilo Revista de Arquitectura) */
+.manifesto-images {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 550px;
+}
+
+.img-wrapper {
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.img-wrapper img {
+    transition: transform 0.8s var(--transition);
+}
+
+.img-wrapper:hover img {
+    transform: scale(1.04);
+}
+
+.large-img {
+    width: 80%;
+    height: 480px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.small-img {
+    width: 55%;
+    height: 320px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    border: 10px solid var(--light); /* Marco de separación elegante */
+}
+
+
+/* ==========================================================================
+   RESPONSIVE - DISPOSITIVOS MÓVILES (PARTE 1)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .hero-content h1 { font-size: 2.8rem; }
+    .manifesto-grid { gap: 40px; }
+    .manifesto-text h2 { font-size: 2.2rem; }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .header-container { padding: 0 24px; height: 80px; }
+    
+    /* Esconder menú tradicional y botón lateral */
+    .nav-menu, .header-cta { display: none; }
+    .mobile-menu-toggle { display: block; } /* Mostrar botón menú móvil */
+
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-content p { font-size: 1rem; }
+    .hero-actions { flex-direction: column; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto; }
+    
+    /* Convertir cuadrícula del manifiesto a una sola columna */
+    .manifesto-grid { grid-template-columns: 1fr; gap: 60px; }
+    .manifesto-images { height: 450px; justify-content: center; }
+    .large-img { width: 90%; height: 380px; top: 0; left: 0; }
+    .small-img { width: 55%; height: 240px; right: 0; bottom: 0; }
+}
+/* ==========================================================================
+   AURA RESIDENCES - ESTILOS PREMIUM (PARTE 2)
+   ========================================================================== */
+
+/* 6. CATÁLOGO DE RESIDENCIAS (TARJETAS DE ALTA GAMA) */
+.residences-section {
+    padding: 100px 0;
+    background-color: var(--gray-light);
+}
+
+.section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+}
+
+.section-header h2 {
+    font-family: var(--font-title);
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.residences-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.residence-card {
+    background-color: var(--light);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.residence-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+.card-img {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
+
+.card-img img {
+    transition: transform 0.6s var(--transition);
+}
+
+.residence-card:hover .card-img img {
+    transform: scale(1.05);
+}
+
+/* Etiquetas de estado (Badges) */
+.badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge.available {
+    background-color: var(--dark);
+    color: var(--text-light);
+    border: 1px solid var(--primary);
+}
+
+.badge.sold-out {
+    background-color: #777777;
+    color: var(--text-light);
+}
+
+.card-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-content h3 {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* Especificaciones técnicas de la casa */
+.card-specs {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+    margin-bottom: 25px;
+}
+
+.card-specs span {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.card-specs i {
+    color: var(--primary);
+    margin-right: 6px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.premium-detail {
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-text {
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-text i {
+    font-size: 0.8rem;
+    transition: var(--transition);
+    margin-left: 4px;
+}
+
+.btn-text:hover {
+    color: var(--primary);
+}
+
+.btn-text:hover i {
+    transform: translateX(5px);
+}
+
+/* Tratamiento visual para Casa Vendida (Urgencia comercial) */
+.residence-card.sold {
+    opacity: 0.85;
+}
+
+.residence-card.
