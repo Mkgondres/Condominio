@@ -1,46 +1,49 @@
 /* ==========================================================================
-   AURA RESIDENCES - SCRIPT PREMIUM INTERACTIVO
+   AURA ESTATES - SCRIPT PREMIUM INTERACTIVO (PARTE 1)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. MANEJO DEL MENÚ MÓVIL (Elegante y Fluido)
+    // 1. MANEJO DEL MENÚ MÓVIL (Elegante, Fluido y Confidencial)
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Estilos dinámicos para el menú móvil sin alterar el CSS base
+    // Estilos dinámicos para el menú móvil sin ensuciar el CSS base
     const injectMobileMenuStyles = () => {
         if (window.innerWidth <= 768) {
             navMenu.style.position = 'fixed';
-            navMenu.style.top = '80px';
+            navMenu.style.top = '85px'; // Sincronizado con la altura del header en móviles
             navMenu.style.left = '-100%';
             navMenu.style.width = '100%';
-            navMenu.style.height = 'calc(100vh - 80px)';
-            navMenu.style.backgroundColor = 'rgba(17, 17, 17, 0.98)';
+            navMenu.style.height = 'calc(100vh - 85px)';
+            navMenu.style.backgroundColor = 'rgba(13, 13, 13, 0.98)'; // Fondo negro puro aura
             navMenu.style.backdropFilter = 'blur(20px)';
+            navMenu.style.webkitBackdropFilter = 'blur(20px)';
             navMenu.style.display = 'block';
-            navMenu.style.transition = 'left 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+            navMenu.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             
             const ul = navMenu.querySelector('ul');
-            ul.style.flexDirection = 'column';
-            ul.style.alignItems = 'center';
-            ul.style.justifyContent = 'center';
-            ul.style.height = '70%';
-            ul.style.gap = '40px';
+            if (ul) {
+                ul.style.flexDirection = 'column';
+                ul.style.alignItems = 'center';
+                ul.style.justifyContent = 'center';
+                ul.style.height = '65%';
+                ul.style.gap = '35px';
+            }
             
-            navLinks.forEach(link => link.style.fontSize = '1.3rem');
+            navLinks.forEach(link => link.style.fontSize = '1.2rem');
         } else {
-            // Resetear estilos si pasa a pantalla de computadora
+            // Resetear estilos por completo si el usuario regresa a pantallas de escritorio
             navMenu.style = '';
             navLinks.forEach(link => link.style = '');
         }
     };
 
     window.addEventListener('resize', injectMobileMenuStyles);
-    injectMobileMenuStyles(); // Ejecutar al cargar
+    injectMobileMenuStyles(); // Inicializar en la primera carga
 
-    // Alternar menú al dar clic en el botón hamburguesa
+    // Alternar apertura/cierre del menú al presionar el botón de hamburguesa
     menuToggle.addEventListener('click', () => {
         const icon = menuToggle.querySelector('i');
         
@@ -53,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Cerrar el menú automáticamente cuando se da clic en un enlace (Móviles)
+    // Cerrar el menú automáticamente al hacer clic en cualquier enlace (Experiencia fluida)
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
@@ -64,11 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // 2. DETECTOR DE SECCIONES ACTIVAS (Actualiza el menú al hacer scroll)
+    // 2. DETECTOR DE SECCIONES ACTIVAS (Resalta el menú conforme se navega)
     const sections = document.querySelectorAll('section');
     
     const activeMenuOnScroll = () => {
-        let scrollPosition = window.scrollY + 150; // Margen de detección
+        let scrollPosition = window.scrollY + 160; // Margen de detección para activar el enlace antes
         
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
@@ -87,108 +90,110 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     window.addEventListener('scroll', activeMenuOnScroll);
-
-
     // 3. EFECTO DE APARICIÓN SUAVE (Scroll Reveal de Alta Gama)
-    // Inicializamos el estado oculto desde JS para garantizar una carga limpia
+    // Inicializamos el estado oculto desde JS para garantizar una carga limpia y maquetación fina
     const animatedElements = document.querySelectorAll('.animate-on-scroll, .fade-in, .fade-in-delayed');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(40px)';
-        el.style.transition = 'opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1)';
+        el.style.transition = 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
         
         if (el.classList.contains('fade-in-delayed')) {
             el.style.transitionDelay = '0.3s';
         }
     });
 
-    // Configuración del Intersection Observer (Detecta cuando el usuario ve el elemento)
+    // Configuración del Observer (Detecta la visibilidad del elemento con rendimiento óptimo)
     const animationObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target); // Se ejecuta solo una vez para mejor rendimiento
+                observer.unobserve(entry.target); // Se ejecuta una sola vez por elemento
             }
         });
     }, {
-        threshold: 0.15 // Se activa cuando el 15% del elemento es visible
+        threshold: 0.12 // Se activa cuando el 12% del elemento entra en pantalla
     });
 
     animatedElements.forEach(el => animationObserver.observe(el));
 
 
-    // 4. PROCESAMIENTO DEL FORMULARIO VIP (Simulación de Alta Gama)
+    // 4. PROCESAMIENTO DEL FORMULARIO VIP (Simulación de Alta Confidencialidad)
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Evita que la página se recargue
+            e.preventDefault(); // Detiene la recarga nativa de la página
             
-            // Captura de datos (Listo para conectar con tu sistema de correos o base de datos)
+            // Extracción de variables dinámicas para personalizar la respuesta
             const nombre = document.getElementById('nombre').value;
             const selectResidencia = document.getElementById('residencia');
             const residenciaSeleccionada = selectResidencia.options[selectResidencia.selectedIndex].text;
             
-            // Cambiar el estado del botón a modo "Procesando"
+            // Transformación del botón a estado "Procesando" con diseño sobrio
             const submitBtn = contactForm.querySelector('.btn-submit');
             const originalText = submitBtn.innerText;
             submitBtn.innerText = "Verificando Credenciales...";
             submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
             
-            // Simulación de respuesta premium tras 2 segundos
+            // Simulación de revisión de portafolio privado (2.2 segundos de espera)
             setTimeout(() => {
-                // Crear notificación flotante elegante
+                
+                // Creación dinámica del contenedor de la notificación premium
                 const notification = document.createElement('div');
                 notification.style.position = 'fixed';
                 notification.style.bottom = '30px';
                 notification.style.right = '30px';
-                notification.style.backgroundColor = '#111111';
+                notification.style.backgroundColor = '#141414';
                 notification.style.color = '#ffffff';
-                notification.style.border = '1px solid #c5a880';
+                notification.style.border = '1px solid #d4b383';
                 notification.style.padding = '25px 35px';
-                notification.style.boxShadow = '0 20px 50px rgba(0,0,0,0.3)';
+                notification.style.boxShadow = '0 30px 60px rgba(0,0,0,0.4)';
                 notification.style.zIndex = '2000';
                 notification.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
                 notification.style.maxWidth = '450px';
-                notification.style.animation = 'slideIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                notification.style.animation = 'slideInEstates 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
                 
+                // Estructura interior del mensaje (Ajustado al enfoque independiente y familiar)
                 notification.innerHTML = `
-                    <h4 style="font-family: 'Playfair Display', serif; color: #c5a880; margin-bottom: 8px; font-size: 1.2rem; font-weight: 400;">Solicitud Recibida</h4>
-                    <p style="font-size: 0.85rem; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8);">
-                        Gracias, <strong>${nombre}</strong>. Un asesor de inversiones se comunicará de manera privada contigo en las próximas horas para coordinar tu recorrido exclusivo en relación a: <em>${residenciaSeleccionada}</em>.
+                    <h4 style="font-family: 'Playfair Display', serif; color: #d4b383; margin-bottom: 8px; font-size: 1.25rem; font-weight: 400;">Petición de Acceso Registrada</h4>
+                    <p style="font-size: 0.85rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.8);">
+                        Estimado(a) <strong>${nombre}</strong>. La dirección general ha recibido sus datos. Un asesor senior se comunicará de manera estrictamente confidencial para coordinar la apertura privada de la propiedad: <em>${residenciaSeleccionada}</em>.
                     </p>
                 `;
                 
                 document.body.appendChild(notification);
                 
-                // Animación CSS temporal para la notificación
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                `;
-                document.head.appendChild(style);
+                // Inyección de la directiva keyframe para la animación suave lateral
+                if (!document.getElementById('estateAnimationStyles')) {
+                    const style = document.createElement('style');
+                    style.id = 'estateAnimationStyles';
+                    style.innerHTML = `
+                        @keyframes slideInEstates {
+                            from { transform: translateX(110%); opacity: 0; }
+                            to { transform: translateX(0); opacity: 1; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
                 
-                // Resetear formulario y botón
+                // Restauración del formulario y botón de envío
                 contactForm.reset();
                 submitBtn.innerText = originalText;
                 submitBtn.style.opacity = "1";
                 submitBtn.disabled = false;
                 
-                // Desvanecer la notificación automáticamente después de 7 segundos
+                // Desvanecimiento controlado y remoción del DOM tras 8 segundos de exposición
                 setTimeout(() => {
-                    notification.style.transition = 'opacity 0.5s ease';
+                    notification.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
                     notification.style.opacity = '0';
-                    setTimeout(() => notification.remove(), 500);
-                }, 7000);
+                    setTimeout(() => notification.remove(), 600);
+                }, 8000);
                 
-            }, 2000);
+            }, 2200);
         });
     }
 });
-
