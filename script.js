@@ -1,23 +1,22 @@
 /* ==========================================================================
-   AURA ESTATES - SCRIPT PREMIUM INTERACTIVO (PARTE 1)
+   AURA ESTATES - SCRIPT PREMIUM INTERACTIVO (COMPLETO)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. MANEJO DEL MENÚ MÓVIL (Elegante, Fluido y Confidencial)
+    // 1. MANEJO DEL MENÚ MÓVIL
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Estilos dinámicos para el menú móvil sin ensuciar el CSS base
     const injectMobileMenuStyles = () => {
         if (window.innerWidth <= 768) {
             navMenu.style.position = 'fixed';
-            navMenu.style.top = '85px'; // Sincronizado con la altura del header en móviles
+            navMenu.style.top = '85px';
             navMenu.style.left = '-100%';
             navMenu.style.width = '100%';
             navMenu.style.height = 'calc(100vh - 85px)';
-            navMenu.style.backgroundColor = 'rgba(13, 13, 13, 0.98)'; // Fondo negro puro aura
+            navMenu.style.backgroundColor = 'rgba(13, 13, 13, 0.98)';
             navMenu.style.backdropFilter = 'blur(20px)';
             navMenu.style.webkitBackdropFilter = 'blur(20px)';
             navMenu.style.display = 'block';
@@ -34,19 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             navLinks.forEach(link => link.style.fontSize = '1.2rem');
         } else {
-            // Resetear estilos por completo si el usuario regresa a pantallas de escritorio
             navMenu.style = '';
             navLinks.forEach(link => link.style = '');
         }
     };
 
     window.addEventListener('resize', injectMobileMenuStyles);
-    injectMobileMenuStyles(); // Inicializar en la primera carga
+    injectMobileMenuStyles();
 
-    // Alternar apertura/cierre del menú al presionar el botón de hamburguesa
     menuToggle.addEventListener('click', () => {
         const icon = menuToggle.querySelector('i');
-        
         if (navMenu.style.left === '0px') {
             navMenu.style.left = '-100%';
             icon.className = 'fa-solid fa-bars-staggered';
@@ -56,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Cerrar el menú automáticamente al hacer clic en cualquier enlace (Experiencia fluida)
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
@@ -66,64 +61,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    // 2. DETECTOR DE SECCIONES ACTIVAS (Resalta el menú conforme se navega)
+    // 2. DETECTOR DE SECCIONES ACTIVAS
     const sections = document.querySelectorAll('section');
-    
     const activeMenuOnScroll = () => {
-        let scrollPosition = window.scrollY + 160; // Margen de detección para activar el enlace antes
-        
+        let scrollPosition = window.scrollY + 160;
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.offsetHeight;
             const sectionId = section.getAttribute('id');
-            
             if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
+                    if (link.getAttribute('href') === `#${sectionId}`) link.classList.add('active');
                 });
             }
         });
     };
-    
     window.addEventListener('scroll', activeMenuOnScroll);
-    // 3. EFECTO DE APARICIÓN SUAVE (Scroll Reveal de Alta Gama)
-    // Inicializamos el estado oculto desde JS para garantizar una carga limpia y maquetación fina
+
+    // 3. EFECTO DE APARICIÓN SUAVE
     const animatedElements = document.querySelectorAll('.animate-on-scroll, .fade-in, .fade-in-delayed');
-    
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(40px)';
         el.style.transition = 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
-        
-        if (el.classList.contains('fade-in-delayed')) {
-            el.style.transitionDelay = '0.3s';
-        }
+        if (el.classList.contains('fade-in-delayed')) el.style.transitionDelay = '0.3s';
     });
 
-    // Configuración del Observer (Detecta la visibilidad del elemento con rendimiento óptimo)
     const animationObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target); // Se ejecuta una sola vez por elemento
+                observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.12 // Se activa cuando el 12% del elemento entra en pantalla
-    });
+    }, { threshold: 0.12 });
 
     animatedElements.forEach(el => animationObserver.observe(el));
 
-
-        // 4. PROCESAMIENTO DEL FORMULARIO VIP (Envío Invisible sin crear cuentas)
+    // 4. PROCESAMIENTO DEL FORMULARIO VIP (Formsubmit Autogestionado)
     const contactForm = document.getElementById('contactForm');
     
-    // FUNCIÓN HELPER: Para mostrar notificaciones premium flotantes
     const showPremiumNotification = (title, message, isSuccess = true) => {
         const existingNotification = document.getElementById('auraNotification');
         if (existingNotification) existingNotification.remove();
@@ -153,12 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!document.getElementById('estateAnimationStyles')) {
             const style = document.createElement('style');
             style.id = 'estateAnimationStyles';
-            style.innerHTML = `
-                @keyframes slideInEstates {
-                    from { transform: translateX(110%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-            `;
+            style.innerHTML = `@keyframes slideInEstates { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`;
             document.head.appendChild(style);
         }
         
@@ -166,41 +140,34 @@ document.addEventListener('DOMContentLoaded', () => {
             notification.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             notification.style.opacity = '0';
             setTimeout(() => notification.remove(), 600);
-        }, 6000);
+        }, 8000);
     };
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Detiene la recarga de la página
+            e.preventDefault(); 
             
             const emailDestino = "gondresmk@gmail.com";
             
-            // Captura de valores eliminando espacios vacíos (.trim())
             const nombre = document.getElementById('nombre').value.trim();
             const email = document.getElementById('email').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
             const selectResidencia = document.getElementById('residencia');
             const residenciaSeleccionada = selectResidencia.value;
-            const residenciaTexto = selectResidencia.options[selectResidencia.selectedIndex].text;
+            const residenciaTexto = selectResidencia.options[selectResidencia.selectedIndex]?.text || '';
             
-            // 1. VALIDACIÓN ESTRICTA: Evita envíos con espacios vacíos
             if (!nombre || !email || !telefono || !residenciaSeleccionada) {
-                showPremiumNotification(
-                    "Revisión de Credenciales", 
-                    "Por favor, complete todos los campos del formulario. No se permiten espacios vacíos.", 
-                    false
-                );
-                return; // Detiene la ejecución inmediatamente
+                showPremiumNotification("Revisión de Credenciales", "Por favor, complete todos los campos del formulario. No se permiten espacios vacíos.", false);
+                return;
             }
             
-            // 2. ANIMACIÓN DE CARGA DEL BOTÓN
             const submitBtn = contactForm.querySelector('.btn-submit');
             const originalText = submitBtn.innerText;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
             submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
             
-            // 3. ENVÍO INVISIBLE USANDO FORMSUBMIT
+            // Intento 1: Envío Invisible
             fetch(`https://formsubmit.co/ajax/${emailDestino}`, {
                 method: "POST",
                 headers: { 
@@ -216,27 +183,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     _template: "table"
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Falta activar Formsubmit");
+                return response.json();
+            })
             .then(data => {
-                showPremiumNotification(
-                    "Acceso VIP Concedido", 
-                    `Estimado(a) <strong>${nombre}</strong>. El formulario fue enviado con éxito y nuestro equipo se pondrá en contacto en breve vía correo.`, 
-                    true
-                );
+                // Si funciona invisible, muestra el cartel de éxito y se queda en la página
+                showPremiumNotification("Acceso VIP Concedido", `Estimado(a) <strong>${nombre}</strong>. El formulario fue enviado con éxito y nuestro equipo se pondrá en contacto en breve vía correo.`, true);
                 contactForm.reset();
-            })
-            .catch(error => {
-                showPremiumNotification(
-                    "Error de Conexión", 
-                    "Hubo un inconveniente en la red. Por favor, intente de nuevo en unos momentos.", 
-                    false
-                );
-            })
-            .finally(() => {
-                // Restaurar botón siempre al final
                 submitBtn.innerHTML = originalText;
                 submitBtn.style.opacity = "1";
                 submitBtn.disabled = false;
+            })
+            .catch(error => {
+                // Si falla (porque es la primera vez), te avisa y te envía a activar
+                showPremiumNotification("Activación Requerida", "Por ser la primera vez, FormSubmit verificará su correo. Redirigiendo al servidor en 2 segundos...", true);
+                
+                contactForm.action = `https://formsubmit.co/${emailDestino}`;
+                contactForm.method = "POST";
+                
+                // Forzamos el envío visible temporalmente
+                setTimeout(() => {
+                    contactForm.submit();
+                }, 2500);
             });
         });
     }
+
+}); // -> ESTA ERA LA LLAVE QUE FALTABA
