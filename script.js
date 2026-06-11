@@ -100,9 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animatedElements.forEach(el => animationObserver.observe(el));
 
-    // 4. PROCESAMIENTO DEL FORMULARIO VIP (Formsubmit Autogestionado)
+        // 4. PROCESAMIENTO DEL FORMULARIO VIP (Idéntico a tu código funcional)
     const contactForm = document.getElementById('contactForm');
     
+    // Función para crear la notificación elegante
     const showPremiumNotification = (title, message, isSuccess = true) => {
         const existingNotification = document.getElementById('auraNotification');
         if (existingNotification) existingNotification.remove();
@@ -144,30 +145,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); 
+        contactForm.addEventListener('submit', (event) => {
+            // Esto es lo que bloquea que la página recargue y salte hacia arriba
+            event.preventDefault(); 
             
             const emailDestino = "gondresmk@gmail.com";
             
+            // Extraer datos limpios
             const nombre = document.getElementById('nombre').value.trim();
             const email = document.getElementById('email').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
             const selectResidencia = document.getElementById('residencia');
-            const residenciaSeleccionada = selectResidencia.value;
             const residenciaTexto = selectResidencia.options[selectResidencia.selectedIndex]?.text || '';
             
-            if (!nombre || !email || !telefono || !residenciaSeleccionada) {
-                showPremiumNotification("Revisión de Credenciales", "Por favor, complete todos los campos del formulario. No se permiten espacios vacíos.", false);
+            // Validación estricta anti-espacios vacíos
+            if (!nombre || !email || !telefono || selectResidencia.value === "") {
+                showPremiumNotification("Revisión de Credenciales", "Por favor, complete todos los campos del formulario.", false);
                 return;
             }
             
+            // Efecto de carga en el botón
             const submitBtn = contactForm.querySelector('.btn-submit');
-            const originalText = submitBtn.innerText;
+            const originalBtnText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
-            submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
             
-            // Intento 1: Envío Invisible
+            // Envío con el método exacto de tu otro código funcional
             fetch(`https://formsubmit.co/ajax/${emailDestino}`, {
                 method: "POST",
                 headers: { 
@@ -175,39 +178,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    _subject: `Acceso VIP Aura Estates - ${nombre}`,
+                    _subject: `💎 Solicitud de Acceso VIP: ${nombre}`,
                     Nombre: nombre,
-                    Email: email,
+                    Correo: email,
                     Teléfono: telefono,
                     Propiedad_Interes: residenciaTexto,
                     _template: "table"
                 })
             })
-            .then(response => {
-                if (!response.ok) throw new Error("Falta activar Formsubmit");
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                // Si funciona invisible, muestra el cartel de éxito y se queda en la página
+                // Restaurar botón y mostrar éxito
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
                 showPremiumNotification("Acceso VIP Concedido", `Estimado(a) <strong>${nombre}</strong>. El formulario fue enviado con éxito y nuestro equipo se pondrá en contacto en breve vía correo.`, true);
                 contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.style.opacity = "1";
-                submitBtn.disabled = false;
             })
             .catch(error => {
-                // Si falla (porque es la primera vez), te avisa y te envía a activar
-                showPremiumNotification("Activación Requerida", "Por ser la primera vez, FormSubmit verificará su correo. Redirigiendo al servidor en 2 segundos...", true);
-                
-                contactForm.action = `https://formsubmit.co/${emailDestino}`;
-                contactForm.method = "POST";
-                
-                // Forzamos el envío visible temporalmente
-                setTimeout(() => {
-                    contactForm.submit();
-                }, 2500);
+                // Restaurar botón y mostrar error si no hay internet
+                console.log(error);
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                showPremiumNotification("Error de Conexión", "Surgió un inconveniente en la red. Por favor, inténtelo de nuevo.", false);
             });
         });
     }
+}); // <-- Esta llave y paréntesis cierran todo el archivo, no las borres.
 
-}); // -> ESTA ERA LA LLAVE QUE FALTABA
