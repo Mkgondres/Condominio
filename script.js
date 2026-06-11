@@ -120,80 +120,123 @@ document.addEventListener('DOMContentLoaded', () => {
     animatedElements.forEach(el => animationObserver.observe(el));
 
 
-    // 4. PROCESAMIENTO DEL FORMULARIO VIP (Simulación de Alta Confidencialidad)
+        // 4. PROCESAMIENTO DEL FORMULARIO VIP (Envío Invisible sin crear cuentas)
     const contactForm = document.getElementById('contactForm');
     
+    // FUNCIÓN HELPER: Para mostrar notificaciones premium flotantes
+    const showPremiumNotification = (title, message, isSuccess = true) => {
+        const existingNotification = document.getElementById('auraNotification');
+        if (existingNotification) existingNotification.remove();
+
+        const notification = document.createElement('div');
+        notification.id = 'auraNotification';
+        notification.style.position = 'fixed';
+        notification.style.bottom = '30px';
+        notification.style.right = '30px';
+        notification.style.backgroundColor = '#141414';
+        notification.style.color = '#ffffff';
+        notification.style.border = isSuccess ? '1px solid #d4b383' : '1px solid #c94c4c';
+        notification.style.padding = '25px 35px';
+        notification.style.boxShadow = '0 30px 60px rgba(0,0,0,0.4)';
+        notification.style.zIndex = '2000';
+        notification.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+        notification.style.maxWidth = '450px';
+        notification.style.animation = 'slideInEstates 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        
+        notification.innerHTML = `
+            <h4 style="font-family: 'Playfair Display', serif; color: ${isSuccess ? '#d4b383' : '#c94c4c'}; margin-bottom: 8px; font-size: 1.25rem; font-weight: 400;">${title}</h4>
+            <p style="font-size: 0.85rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.8);">${message}</p>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        if (!document.getElementById('estateAnimationStyles')) {
+            const style = document.createElement('style');
+            style.id = 'estateAnimationStyles';
+            style.innerHTML = `
+                @keyframes slideInEstates {
+                    from { transform: translateX(110%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        setTimeout(() => {
+            notification.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 600);
+        }, 6000);
+    };
+
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Detiene la recarga nativa de la página
+            e.preventDefault(); // Detiene la recarga de la página
             
-            // Extracción de variables dinámicas para personalizar la respuesta
-            const nombre = document.getElementById('nombre').value;
+            const emailDestino = "gondresmk@gmail.com";
+            
+            // Captura de valores eliminando espacios vacíos (.trim())
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
             const selectResidencia = document.getElementById('residencia');
-            const residenciaSeleccionada = selectResidencia.options[selectResidencia.selectedIndex].text;
+            const residenciaSeleccionada = selectResidencia.value;
+            const residenciaTexto = selectResidencia.options[selectResidencia.selectedIndex].text;
             
-            // Transformación del botón a estado "Procesando" con diseño sobrio
+            // 1. VALIDACIÓN ESTRICTA: Evita envíos con espacios vacíos
+            if (!nombre || !email || !telefono || !residenciaSeleccionada) {
+                showPremiumNotification(
+                    "Revisión de Credenciales", 
+                    "Por favor, complete todos los campos del formulario. No se permiten espacios vacíos.", 
+                    false
+                );
+                return; // Detiene la ejecución inmediatamente
+            }
+            
+            // 2. ANIMACIÓN DE CARGA DEL BOTÓN
             const submitBtn = contactForm.querySelector('.btn-submit');
             const originalText = submitBtn.innerText;
-            submitBtn.innerText = "Verificando Credenciales...";
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
             submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
             
-            // Simulación de revisión de portafolio privado (2.2 segundos de espera)
-            setTimeout(() => {
-                
-                // Creación dinámica del contenedor de la notificación premium
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '30px';
-                notification.style.right = '30px';
-                notification.style.backgroundColor = '#141414';
-                notification.style.color = '#ffffff';
-                notification.style.border = '1px solid #d4b383';
-                notification.style.padding = '25px 35px';
-                notification.style.boxShadow = '0 30px 60px rgba(0,0,0,0.4)';
-                notification.style.zIndex = '2000';
-                notification.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
-                notification.style.maxWidth = '450px';
-                notification.style.animation = 'slideInEstates 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-                
-                // Estructura interior del mensaje (Ajustado al enfoque independiente y familiar)
-                notification.innerHTML = `
-                    <h4 style="font-family: 'Playfair Display', serif; color: #d4b383; margin-bottom: 8px; font-size: 1.25rem; font-weight: 400;">Petición de Acceso Registrada</h4>
-                    <p style="font-size: 0.85rem; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.8);">
-                        Estimado(a) <strong>${nombre}</strong>. La dirección general ha recibido sus datos. Un asesor senior se comunicará de manera estrictamente confidencial para coordinar la apertura privada de la propiedad: <em>${residenciaSeleccionada}</em>.
-                    </p>
-                `;
-                
-                document.body.appendChild(notification);
-                
-                // Inyección de la directiva keyframe para la animación suave lateral
-                if (!document.getElementById('estateAnimationStyles')) {
-                    const style = document.createElement('style');
-                    style.id = 'estateAnimationStyles';
-                    style.innerHTML = `
-                        @keyframes slideInEstates {
-                            from { transform: translateX(110%); opacity: 0; }
-                            to { transform: translateX(0); opacity: 1; }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-                
-                // Restauración del formulario y botón de envío
+            // 3. ENVÍO INVISIBLE USANDO FORMSUBMIT
+            fetch(`https://formsubmit.co/ajax/${emailDestino}`, {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: `Acceso VIP Aura Estates - ${nombre}`,
+                    Nombre: nombre,
+                    Email: email,
+                    Teléfono: telefono,
+                    Propiedad_Interes: residenciaTexto,
+                    _template: "table"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showPremiumNotification(
+                    "Acceso VIP Concedido", 
+                    `Estimado(a) <strong>${nombre}</strong>. El formulario fue enviado con éxito y nuestro equipo se pondrá en contacto en breve vía correo.`, 
+                    true
+                );
                 contactForm.reset();
-                submitBtn.innerText = originalText;
+            })
+            .catch(error => {
+                showPremiumNotification(
+                    "Error de Conexión", 
+                    "Hubo un inconveniente en la red. Por favor, intente de nuevo en unos momentos.", 
+                    false
+                );
+            })
+            .finally(() => {
+                // Restaurar botón siempre al final
+                submitBtn.innerHTML = originalText;
                 submitBtn.style.opacity = "1";
                 submitBtn.disabled = false;
-                
-                // Desvanecimiento controlado y remoción del DOM tras 8 segundos de exposición
-                setTimeout(() => {
-                    notification.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-                    notification.style.opacity = '0';
-                    setTimeout(() => notification.remove(), 600);
-                }, 8000);
-                
-            }, 2200);
+            });
         });
     }
-});
